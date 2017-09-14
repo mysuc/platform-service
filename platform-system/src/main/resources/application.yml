@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    name: mydb
+    type: org.apache.commons.dbcp.BasicDataSource
+    url: jdbc:mysql://mysql:3306/platform?useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC
+    username: root
+    password: will
+    driver-class-name: com.mysql.jdbc.Driver
+    minIdle: 10
+    maxActive: 30
+    validationQuery: select 1
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+  redis:
+    host: localhost
+    password: will
+    port: 6379
+    timeout: 5000
+    pool:
+      maxIdle: 100
+  profiles:
+    active: dev
+  application:
+    name: platform-system
+  dubbo:
+    application:
+      name: platform-system
+    registry:
+      address: zookeeper:2181
+      protocol: zookeeper
+      timeout: 20000
+    protocol:
+      port: -1
+      threads: 100
+
+mybatis:
+  mapperLocations: classpath*:/mapper/*Mapper.xml
+
+logging:
+  config: classpath:logback-boot.xml
+  path: /logs
+
+flyway:
+  locations[0]: classpath:/migration/system
+  baseline-version: 0_0_1
+  baseline-description: migrate system installed
+  table: schema_version_system
+  sql-migration-prefix: v
+  baseline-on-migrate: true

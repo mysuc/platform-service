@@ -1,0 +1,53 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: platform-web
+  dubbo:
+    application:
+      name: platform-web
+    registry:
+      address: zookeeper:2181
+      protocol: zookeeper
+      timeout: 20000
+    protocol:
+      port: -1
+      threads: 100
+  resources:
+    addMappings: false
+
+enjoy:
+  web:
+    token:
+      type: encrypt
+      encrypt:
+        desSecret: 12345678
+        signSecret: 87654321
+    session:
+      type: cookie
+      cookie:
+        tokenName: pms
+        userCache:
+          expire: 300
+          max: 1000
+    template:
+      cache: false
+    apps:
+      - webConfig: file:/bin/config/web/*
+        serviceConfig: file:/bin/config/service/*
+        templateResource: file:/bin/views/
+        staticMappings:
+          - staticPattern: /assets/**
+            staticResource: file:/bin/assets/
+
+#server
+server:
+  port: 8080
+  context-path: /
+  tomcat:
+    max-threads: 50
+    uri-encoding: utf-8
+
+logging:
+  config: classpath:logback-boot.xml
+  path: /logs

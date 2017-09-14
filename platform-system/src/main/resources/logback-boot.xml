@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <springProfile name="dev">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+                <charset>utf8</charset>
+            </encoder>
+        </appender>
+
+        <logger name="com.neusoft.platform.system.dao" level="DEBUG" additivity="false">
+            <appender-ref ref="CONSOLE" />
+        </logger>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
+        </root>
+    </springProfile>
+
+    <springProfile name="server">
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${LOG_PATH}/system.log</file>
+            <encoder>
+                <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_PATH}/history/system/%d{yyyy-MM-dd}.log</fileNamePattern>
+                <maxHistory>7</maxHistory>
+            </rollingPolicy>
+        </appender>
+
+        <logger name="com.neusoft.platform.system.dao" level="DEBUG" additivity="false">
+            <appender-ref ref="FILE" />
+        </logger>
+
+        <root level="INFO">
+            <appender-ref ref="FILE" />
+        </root>
+    </springProfile>
+</configuration>
+
+
